@@ -9,10 +9,8 @@ cloudinary.config({
   api_secret:process.env.API_SECRET,  
 });
 
-console.log(process.env.CLOUD_NAME, " ",process.env.API_KEY, " ",process.env.API_SECRET)
 export const uploadFileToCloudinary = async (files) => {
     try {
-      console.log("Files received for upload:", files);
   
       const fileArray = Array.isArray(files) ? files : [files];
   
@@ -25,7 +23,6 @@ export const uploadFileToCloudinary = async (files) => {
                 console.error(`Upload failed for ${file.originalname}:`, error);
                 reject(error);
               } else {
-                console.log(`Uploaded: ${result.secure_url}`); // ✅ Console logging each URL
                 resolve({
                   secure_url: result.secure_url,
                   public_id: result.public_id,
@@ -39,7 +36,7 @@ export const uploadFileToCloudinary = async (files) => {
   
       const uploadResults = await Promise.all(uploadPromises);
   
-      console.log("All uploaded URLs:", uploadResults.map((res) => res.secure_url)); // ✅ Console log all URLs
+    
   
       return uploadResults;
     } catch (error) {
@@ -52,7 +49,6 @@ export const uploadFileToCloudinary = async (files) => {
   export const deleteFileFromCloudinary = async (public_id) => {
     try {
       const result = await cloudinary.uploader.destroy(public_id);
-      console.log(`Deleted from Cloudinary: ${public_id}`, result);
       return result;
     } catch (error) {
       console.error(`Failed to delete ${public_id}:`, error);
